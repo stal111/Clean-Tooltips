@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "clean_tooltips",
+  "version": "${version}",
+
+  "name": "Clean Tooltips",
+  "description": "",
+  "authors": [
+    "stal111"
+  ],
+  "contact": {},
+
+  "license": "All Rights Reserved",
+
+  "environment": "client",
+  "entrypoints": {},
+  "mixins": [
+    "clean_tooltips-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.19",
+    "minecraft": ">=1.19.2"
+  }
+}
