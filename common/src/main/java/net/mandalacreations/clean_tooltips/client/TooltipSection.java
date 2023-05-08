@@ -2,6 +2,7 @@ package net.mandalacreations.clean_tooltips.client;
 
 
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.common.ForgeConfigSpec;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -13,13 +14,15 @@ import java.util.List;
 public abstract class TooltipSection {
 
     private final List<Component> tooltip;
+    private final ForgeConfigSpec.BooleanValue enabled;
 
-    protected TooltipSection(List<Component> tooltip) {
+    protected TooltipSection(List<Component> tooltip, ForgeConfigSpec.BooleanValue enabled) {
         this.tooltip = tooltip;
+        this.enabled = enabled;
     }
 
     public void create() {
-        if (this.shouldDisplay()) {
+        if (this.enabled.get() && this.shouldDisplay()) {
             if (!this.isFirstSection()) {
                 this.addComponent(Component.empty());
             }
@@ -57,5 +60,9 @@ public abstract class TooltipSection {
 
     protected boolean isFirstSection() {
         return this.tooltip.size() <= 1;
+    }
+
+    public boolean isEnabled() {
+        return this.enabled.get();
     }
 }

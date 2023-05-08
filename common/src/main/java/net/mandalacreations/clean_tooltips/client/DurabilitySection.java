@@ -1,7 +1,7 @@
 package net.mandalacreations.clean_tooltips.client;
 
+import net.mandalacreations.clean_tooltips.client.config.ClientConfig;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
@@ -18,7 +18,7 @@ public class DurabilitySection extends TooltipSection {
     private final ItemStack stack;
 
     protected DurabilitySection(List<Component> tooltip, ItemStack stack) {
-        super(tooltip);
+        super(tooltip, ClientConfig.INSTANCE.durabilitySectionEnabled());
         this.stack = stack;
     }
 

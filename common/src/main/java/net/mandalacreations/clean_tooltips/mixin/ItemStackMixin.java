@@ -3,6 +3,7 @@ package net.mandalacreations.clean_tooltips.mixin;
 import net.mandalacreations.clean_tooltips.client.ColorSection;
 import net.mandalacreations.clean_tooltips.client.DurabilitySection;
 import net.mandalacreations.clean_tooltips.client.EnchantmentSection;
+import net.mandalacreations.clean_tooltips.client.config.ClientConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
@@ -39,14 +40,14 @@ public abstract class ItemStackMixin {
 
     @Inject(at = @At(value = "HEAD"), method = "appendEnchantmentNames", cancellable = true)
     private static void cleanTooltips_appendEnchantmentNames(List<Component> list, ListTag listTag, CallbackInfo ci) {
-        EnchantmentSection.create(list, listTag);
-
-        ci.cancel();
+        if (EnchantmentSection.create(list, listTag)) {
+            ci.cancel();
+        }
     }
 
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/CompoundTag;contains(Ljava/lang/String;I)Z", ordinal = 1), method = "getTooltipLines")
     private boolean cleanTooltips_getTooltipLines$cancelColorInfo(CompoundTag instance, String string, int i) {
-        return false;
+        return !ClientConfig.INSTANCE.colorSectionEnabled().get() && instance.contains("color", 99);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/CompoundTag;getCompound(Ljava/lang/String;)Lnet/minecraft/nbt/CompoundTag;"), method = "getTooltipLines", locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)

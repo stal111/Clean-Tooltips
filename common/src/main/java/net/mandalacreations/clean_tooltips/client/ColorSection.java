@@ -1,5 +1,6 @@
 package net.mandalacreations.clean_tooltips.client;
 
+import net.mandalacreations.clean_tooltips.client.config.ClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
@@ -17,7 +18,7 @@ public class ColorSection extends TooltipSection {
     private final int color;
 
     protected ColorSection(List<Component> tooltip, int color) {
-        super(tooltip);
+        super(tooltip, ClientConfig.INSTANCE.colorSectionEnabled());
         this.color = color;
     }
 

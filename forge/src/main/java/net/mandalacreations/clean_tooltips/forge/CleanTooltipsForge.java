@@ -1,11 +1,13 @@
 package net.mandalacreations.clean_tooltips.forge;
 
 import net.mandalacreations.clean_tooltips.CleanTooltips;
+import net.mandalacreations.clean_tooltips.client.config.ClientConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.network.NetworkConstants;
 
@@ -13,6 +15,8 @@ import net.minecraftforge.network.NetworkConstants;
 public class CleanTooltipsForge {
     public CleanTooltipsForge() {
         CleanTooltips.init();
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = CleanTooltips.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)

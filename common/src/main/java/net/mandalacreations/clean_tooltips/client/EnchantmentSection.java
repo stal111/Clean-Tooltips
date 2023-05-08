@@ -1,5 +1,6 @@
 package net.mandalacreations.clean_tooltips.client;
 
+import net.mandalacreations.clean_tooltips.client.config.ClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -26,12 +27,16 @@ public class EnchantmentSection extends TooltipSection {
     private final List<Component> curses = new ArrayList<>();
 
     public EnchantmentSection(List<Component> tooltip, ListTag enchantmentTag) {
-        super(tooltip);
+        super(tooltip, ClientConfig.INSTANCE.enchantmentSectionEnabled());
         this.enchantmentTag = enchantmentTag;
     }
 
-    public static void create(List<Component> tooltip, ListTag enchantmentTag) {
-        new EnchantmentSection(tooltip, enchantmentTag).create();
+    public static boolean create(List<Component> tooltip, ListTag enchantmentTag) {
+        var section = new EnchantmentSection(tooltip, enchantmentTag);
+
+        section.create();
+
+        return section.isEnabled();
     }
 
     @Override
