@@ -68,7 +68,11 @@ public class EnchantmentSection extends TooltipSection {
     }
 
     private ChatFormatting getColor(Enchantment enchantment, int level) {
-        return enchantment.isCurse() ? ChatFormatting.RED : level == enchantment.getMaxLevel() ? ChatFormatting.GOLD : ChatFormatting.GREEN;
+        if (enchantment.isCurse()) {
+            return ClientConfig.INSTANCE.curseEnchantmentColor().get();
+        }
+
+        return  level == enchantment.getMaxLevel() ? ClientConfig.INSTANCE.maxLevelEnchantmentColor().get() : ClientConfig.INSTANCE.normalEnchantmentColor().get();
     }
 
     @Override
