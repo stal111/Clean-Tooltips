@@ -8,15 +8,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -38,10 +36,12 @@ public abstract class ItemStackMixin {
         return false;
     }
 
-    @Inject(at = @At(value = "HEAD"), method = "appendEnchantmentNames", cancellable = true)
-    private static void cleanTooltips_appendEnchantmentNames(List<Component> list, ListTag listTag, CallbackInfo ci) {
-        if (EnchantmentSection.create(list, listTag)) {
-            ci.cancel();
+    @Shadow public abstract Item getItem();
+
+    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;appendEnchantmentNames(Ljava/util/List;Lnet/minecraft/nbt/ListTag;)V"), method = "getTooltipLines")
+    private void cleanTooltips_appendEnchantmentNames(List<Component> list, ListTag listTag) {
+        if (!EnchantmentSection.create(list, listTag, false)) {
+            ItemStack.appendEnchantmentNames(list, listTag);
         }
     }
 

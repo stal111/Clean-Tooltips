@@ -1,7 +1,9 @@
 package net.mandalacreations.clean_tooltips.client;
 
+import net.mandalacreations.clean_tooltips.CleanTooltips;
 import net.mandalacreations.clean_tooltips.client.config.ClientConfig;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -13,6 +15,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * @author stal111
@@ -26,13 +30,16 @@ public class EnchantmentSection extends TooltipSection {
     private final ListTag enchantmentTag;
     private final List<Component> curses = new ArrayList<>();
 
-    public EnchantmentSection(List<Component> tooltip, ListTag enchantmentTag) {
+    private final boolean isEnchantedBook;
+
+    public EnchantmentSection(List<Component> tooltip, ListTag enchantmentTag, boolean isEnchantedBook) {
         super(tooltip, ClientConfig.INSTANCE.enchantmentSectionEnabled());
         this.enchantmentTag = enchantmentTag;
+        this.isEnchantedBook = isEnchantedBook;
     }
 
-    public static boolean create(List<Component> tooltip, ListTag enchantmentTag) {
-        var section = new EnchantmentSection(tooltip, enchantmentTag);
+    public static boolean create(List<Component> tooltip, ListTag enchantmentTag, boolean isEnchantedBook) {
+        var section = new EnchantmentSection(tooltip, enchantmentTag, isEnchantedBook);
 
         section.create();
 
@@ -59,12 +66,36 @@ public class EnchantmentSection extends TooltipSection {
         Component component = SPACE.copy().append(enchantment.getFullname(level).copy().withStyle(color));
 
         if (enchantment.isCurse()) {
-            this.curses.add(component);
+            this.addComponent(enchantment, component, this.curses::add);
 
             return;
         }
 
-        this.addComponent(component);
+        this.addComponent(enchantment, component, this::addComponent);
+    }
+
+    private void addComponent(Enchantment enchantment, Component component, Consumer<Component> consumer) {
+        consumer.accept(component);
+
+        if (CleanTooltips.ENCHANTMENT_DESCRIPTIONS_LOADED && this.isEnchantedBook) {
+            this.getDescriptionKey(enchantment).ifPresent(key -> {
+                consumer.accept(SPACE.copy().append(Component.translatable(key).withStyle(ChatFormatting.DARK_GRAY)));
+            });
+        }
+    }
+
+    private Optional<String> getDescriptionKey(Enchantment enchantment) {
+        String key = enchantment.getDescriptionId() + ".desc";
+
+        if (!I18n.exists(key)) {
+            if (!I18n.exists(enchantment.getDescriptionId() + ".description")) {
+                return Optional.empty();
+            }
+
+            key = enchantment.getDescriptionId() + ".description";
+        }
+
+        return Optional.of(key);
     }
 
     private ChatFormatting getColor(Enchantment enchantment, int level) {
