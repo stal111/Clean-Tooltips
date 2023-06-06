@@ -4,7 +4,7 @@ import net.mandalacreations.clean_tooltips.CleanTooltips;
 import net.mandalacreations.clean_tooltips.client.config.ClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
@@ -51,7 +51,7 @@ public class EnchantmentSection extends TooltipSection {
         for (int i = 0; i < this.enchantmentTag.size(); i++) {
             CompoundTag tag = this.enchantmentTag.getCompound(i);
 
-            Registry.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(tag)).ifPresent(enchantment -> {
+            BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(tag)).ifPresent(enchantment -> {
                 this.handleEnchantment(enchantment, tag);
             });
         }
