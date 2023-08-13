@@ -13,7 +13,11 @@
   "license": "All Rights Reserved",
 
   "environment": "client",
-  "entrypoints": {},
+  "entrypoints": {
+    "client": [
+      "net.mandalacreations.clean_tooltips.fabric.CleanTooltipsFabric"
+    ]
+  },
   "mixins": [
     "clean_tooltips-common.mixins.json"
   ],
