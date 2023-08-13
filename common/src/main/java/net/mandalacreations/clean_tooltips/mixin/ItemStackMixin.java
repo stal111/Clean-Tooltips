@@ -50,7 +50,7 @@ public abstract class ItemStackMixin {
         return !ClientConfig.INSTANCE.colorSectionEnabled().get() && instance.contains("color", 99);
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/CompoundTag;getCompound(Ljava/lang/String;)Lnet/minecraft/nbt/CompoundTag;"), method = "getTooltipLines", locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/CompoundTag;getCompound(Ljava/lang/String;)Lnet/minecraft/nbt/CompoundTag;"), method = "getTooltipLines", locals = LocalCapture.CAPTURE_FAILSOFT)
     private void cleanTooltips_getTooltipLines(Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, List<Component> list) {
         CompoundTag tag = this.tag.getCompound("display");
 
@@ -59,7 +59,7 @@ public abstract class ItemStackMixin {
         }
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shouldShowInTooltip(ILnet/minecraft/world/item/ItemStack$TooltipPart;)Z", ordinal = 3), method = "getTooltipLines", locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shouldShowInTooltip(ILnet/minecraft/world/item/ItemStack$TooltipPart;)Z", ordinal = 2), method = "getTooltipLines", locals = LocalCapture.CAPTURE_FAILSOFT)
     private void cleanTooltips_getTooltipLines$addDurabilityTooltip(Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, List<Component> list) {
         DurabilitySection.create(list, (ItemStack) (Object) this);
     }
