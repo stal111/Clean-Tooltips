@@ -6,11 +6,11 @@ dependencies {
     //modApi "dev.architectury:architectury:${rootProject.architectury_version}"
 
     // Forge Config API Port
-    api "fuzs.forgeconfigapiport:forgeconfigapiport-common:5.0.11"
+    api "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:20.4.3"
 }
 
 architectury {
-    common()
+    common("fabric", "neoforge")
 }
 
 publishing {

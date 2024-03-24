@@ -1,6 +1,6 @@
-package net.mandalacreations.clean_tooltips.forge;
+package net.mandalacreations.clean_tooltips.neoforge;
 
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 /**
  * @author stal111

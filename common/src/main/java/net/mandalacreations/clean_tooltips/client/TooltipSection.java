@@ -2,7 +2,7 @@ package net.mandalacreations.clean_tooltips.client;
 
 
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -14,9 +14,9 @@ import java.util.List;
 public abstract class TooltipSection {
 
     private final List<Component> tooltip;
-    private final ForgeConfigSpec.BooleanValue enabled;
+    private final ModConfigSpec.BooleanValue enabled;
 
-    protected TooltipSection(List<Component> tooltip, ForgeConfigSpec.BooleanValue enabled) {
+    protected TooltipSection(List<Component> tooltip, ModConfigSpec.BooleanValue enabled) {
         this.tooltip = tooltip;
         this.enabled = enabled;
     }
