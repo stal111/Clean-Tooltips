@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Consumer;
 
 /**
  * @author stal111
@@ -17,13 +18,13 @@ public class ColorSection extends TooltipSection {
 
     private final int color;
 
-    protected ColorSection(List<Component> tooltip, int color) {
-        super(tooltip, ClientConfig.INSTANCE.colorSectionEnabled());
+    protected ColorSection(Consumer<Component> consumer, int color) {
+        super(consumer, ClientConfig.INSTANCE.colorSectionEnabled());
         this.color = color;
     }
 
-    public static void create(List<Component> tooltip, int color) {
-        new ColorSection(tooltip, color).create();
+    public static void create(Consumer<Component> consumer, int color) {
+        new ColorSection(consumer, color).create();
     }
 
     @Override

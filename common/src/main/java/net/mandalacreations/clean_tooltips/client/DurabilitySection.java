@@ -5,7 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author stal111
@@ -17,13 +17,13 @@ public class DurabilitySection extends TooltipSection {
 
     private final ItemStack stack;
 
-    protected DurabilitySection(List<Component> tooltip, ItemStack stack) {
-        super(tooltip, ClientConfig.INSTANCE.durabilitySectionEnabled());
+    protected DurabilitySection(Consumer<Component> consumer, ItemStack stack) {
+        super(consumer, ClientConfig.INSTANCE.durabilitySectionEnabled());
         this.stack = stack;
     }
 
-    public static void create(List<Component> tooltip, ItemStack stack) {
-        new DurabilitySection(tooltip, stack).create();
+    public static void create(Consumer<Component> consumer, ItemStack stack) {
+        new DurabilitySection(consumer, stack).create();
     }
 
     @Override

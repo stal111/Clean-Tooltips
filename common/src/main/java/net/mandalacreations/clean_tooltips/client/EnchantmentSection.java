@@ -4,13 +4,10 @@ import net.mandalacreations.clean_tooltips.CleanTooltips;
 import net.mandalacreations.clean_tooltips.client.config.ClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -27,19 +24,19 @@ public class EnchantmentSection extends TooltipSection {
     private static final Component ENCHANTMENTS = Component.translatable("item.clean_tooltips.enchantments").withStyle(ChatFormatting.GRAY);
     private static final MutableComponent SPACE = Component.literal(" ");
 
-    private final ListTag enchantmentTag;
+    private final ItemEnchantments enchantments;
     private final List<Component> curses = new ArrayList<>();
 
     private final boolean isEnchantedBook;
 
-    public EnchantmentSection(List<Component> tooltip, ListTag enchantmentTag, boolean isEnchantedBook) {
-        super(tooltip, ClientConfig.INSTANCE.enchantmentSectionEnabled());
-        this.enchantmentTag = enchantmentTag;
+    public EnchantmentSection(Consumer<Component> consumer, ItemEnchantments enchantments, boolean isEnchantedBook) {
+        super(consumer, ClientConfig.INSTANCE.enchantmentSectionEnabled());
+        this.enchantments = enchantments;
         this.isEnchantedBook = isEnchantedBook;
     }
 
-    public static boolean create(List<Component> tooltip, ListTag enchantmentTag, boolean isEnchantedBook) {
-        var section = new EnchantmentSection(tooltip, enchantmentTag, isEnchantedBook);
+    public static boolean create(Consumer<Component> consumer, ItemEnchantments enchantments, boolean isEnchantedBook) {
+        var section = new EnchantmentSection(consumer, enchantments, isEnchantedBook);
 
         section.create();
 
@@ -48,19 +45,14 @@ public class EnchantmentSection extends TooltipSection {
 
     @Override
     protected void buildSection() {
-        for (int i = 0; i < this.enchantmentTag.size(); i++) {
-            CompoundTag tag = this.enchantmentTag.getCompound(i);
-
-            BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(tag)).ifPresent(enchantment -> {
-                this.handleEnchantment(enchantment, tag);
-            });
-        }
+        this.enchantments.entrySet().forEach(entry -> {
+            this.handleEnchantment(entry.getKey().value(), entry.getIntValue());
+        });
 
         this.curses.forEach(this::addComponent);
     }
 
-    private void handleEnchantment(Enchantment enchantment, CompoundTag tag) {
-        int level = EnchantmentHelper.getEnchantmentLevel(tag);
+    private void handleEnchantment(Enchantment enchantment, int level) {
         ChatFormatting color = this.getColor(enchantment, level);
 
         Component component = SPACE.copy().append(enchantment.getFullname(level).copy().withStyle(color));
@@ -108,7 +100,7 @@ public class EnchantmentSection extends TooltipSection {
 
     @Override
     public boolean shouldDisplay() {
-        return !this.enchantmentTag.isEmpty();
+        return !this.enchantments.isEmpty();
     }
 
     @Override

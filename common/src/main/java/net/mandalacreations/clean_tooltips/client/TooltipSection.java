@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author stal111
@@ -13,11 +13,11 @@ import java.util.List;
  */
 public abstract class TooltipSection {
 
-    private final List<Component> tooltip;
+    private final Consumer<Component> consumer;
     private final ModConfigSpec.BooleanValue enabled;
 
-    protected TooltipSection(List<Component> tooltip, ModConfigSpec.BooleanValue enabled) {
-        this.tooltip = tooltip;
+    protected TooltipSection(Consumer<Component> consumer, ModConfigSpec.BooleanValue enabled) {
+        this.consumer = consumer;
         this.enabled = enabled;
     }
 
@@ -36,7 +36,7 @@ public abstract class TooltipSection {
     protected abstract void buildSection();
 
     protected void addComponent(Component component) {
-        this.tooltip.add(component);
+        this.consumer.accept(component);
     }
 
     public boolean shouldDisplay() {
@@ -59,7 +59,8 @@ public abstract class TooltipSection {
     }
 
     protected boolean isFirstSection() {
-        return this.tooltip.size() <= 1;
+        //TODO
+        return false;
     }
 
     public boolean isEnabled() {
