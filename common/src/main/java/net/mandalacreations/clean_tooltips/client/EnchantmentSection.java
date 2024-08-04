@@ -4,8 +4,10 @@ import net.mandalacreations.clean_tooltips.CleanTooltips;
 import net.mandalacreations.clean_tooltips.client.config.ClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.jetbrains.annotations.Nullable;
@@ -46,18 +48,18 @@ public class EnchantmentSection extends TooltipSection {
     @Override
     protected void buildSection() {
         this.enchantments.entrySet().forEach(entry -> {
-            this.handleEnchantment(entry.getKey().value(), entry.getIntValue());
+            this.handleEnchantment(entry.getKey(), entry.getIntValue());
         });
 
         this.curses.forEach(this::addComponent);
     }
 
-    private void handleEnchantment(Enchantment enchantment, int level) {
+    private void handleEnchantment(Holder<Enchantment> enchantment, int level) {
         ChatFormatting color = this.getColor(enchantment, level);
 
-        Component component = SPACE.copy().append(enchantment.getFullname(level).copy().withStyle(color));
+        Component component = SPACE.copy().append(Enchantment.getFullname(enchantment, level).copy().withStyle(color));
 
-        if (enchantment.isCurse()) {
+        if (enchantment.is(EnchantmentTags.CURSE)) {
             this.addComponent(enchantment, component, this.curses::add);
 
             return;
@@ -66,36 +68,36 @@ public class EnchantmentSection extends TooltipSection {
         this.addComponent(enchantment, component, this::addComponent);
     }
 
-    private void addComponent(Enchantment enchantment, Component component, Consumer<Component> consumer) {
+    private void addComponent(Holder<Enchantment> enchantment, Component component, Consumer<Component> consumer) {
         consumer.accept(component);
 
         if (CleanTooltips.ENCHANTMENT_DESCRIPTIONS_LOADED && this.isEnchantedBook) {
-            this.getDescriptionKey(enchantment).ifPresent(key -> {
+            this.getDescriptionKey(enchantment.value()).ifPresent(key -> {
                 consumer.accept(SPACE.copy().append(Component.translatable(key).withStyle(ChatFormatting.DARK_GRAY)));
             });
         }
     }
 
     private Optional<String> getDescriptionKey(Enchantment enchantment) {
-        String key = enchantment.getDescriptionId() + ".desc";
+        String key = enchantment.description().getString() + ".desc";
 
         if (!I18n.exists(key)) {
-            if (!I18n.exists(enchantment.getDescriptionId() + ".description")) {
+            if (!I18n.exists(enchantment.description().getString() + ".description")) {
                 return Optional.empty();
             }
 
-            key = enchantment.getDescriptionId() + ".description";
+            key = enchantment.description().getString() + ".description";
         }
 
         return Optional.of(key);
     }
 
-    private ChatFormatting getColor(Enchantment enchantment, int level) {
-        if (enchantment.isCurse()) {
+    private ChatFormatting getColor(Holder<Enchantment> enchantment, int level) {
+        if (enchantment.is(EnchantmentTags.CURSE)) {
             return ClientConfig.INSTANCE.curseEnchantmentColor().get();
         }
 
-        return level >= enchantment.getMaxLevel() ? ClientConfig.INSTANCE.maxLevelEnchantmentColor().get() : ClientConfig.INSTANCE.normalEnchantmentColor().get();
+        return level >= enchantment.value().getMaxLevel() ? ClientConfig.INSTANCE.maxLevelEnchantmentColor().get() : ClientConfig.INSTANCE.normalEnchantmentColor().get();
     }
 
     @Override
