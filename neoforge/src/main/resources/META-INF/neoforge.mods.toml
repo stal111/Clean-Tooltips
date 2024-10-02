@@ -67,3 +67,7 @@ description='''
 
 [[mixins]]
 config = "clean_tooltips-common.mixins.json"
+
+[[mixins]]
+config = "clean_tooltips-neoforge.mixins.json"
+

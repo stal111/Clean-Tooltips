@@ -19,11 +19,12 @@
     ]
   },
   "mixins": [
-    "clean_tooltips-common.mixins.json"
+    "clean_tooltips-common.mixins.json",
+    "clean_tooltips-fabric.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.15.7",
-    "minecraft": ">=1.20.4",
-    "forgeconfigapiport": ">=20.4.3"
+    "minecraft": ">=1.21.1",
+    "forgeconfigapiport": ">=21.1.1"
   }
 }
