@@ -1,6 +1,6 @@
 package net.mandalacreations.clean_tooltips.client;
 
-
+import net.mandalacreations.clean_tooltips.client.config.ClientConfig;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +23,7 @@ public abstract class TooltipSection {
 
     public void create() {
         if (this.enabled.get() && this.shouldDisplay()) {
-            if (!this.isFirstSection()) {
+            if (ClientConfig.INSTANCE.gapEnabled().get() && !this.isFirstSection()) {
                 this.addComponent(Component.empty());
             }
 
@@ -59,7 +59,7 @@ public abstract class TooltipSection {
     }
 
     protected boolean isFirstSection() {
-        //TODO
+        // TODO
         return false;
     }
 
