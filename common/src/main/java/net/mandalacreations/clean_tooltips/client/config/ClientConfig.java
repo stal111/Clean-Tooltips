@@ -14,7 +14,8 @@ public record ClientConfig(ModConfigSpec.BooleanValue durabilitySectionEnabled,
                            ModConfigSpec.EnumValue<ChatFormatting> curseEnchantmentColor,
                            ModConfigSpec.EnumValue<ChatFormatting> normalEnchantmentColor,
                            ModConfigSpec.EnumValue<ChatFormatting> maxLevelEnchantmentColor,
-                           ModConfigSpec.BooleanValue colorSectionEnabled) {
+                           ModConfigSpec.BooleanValue colorSectionEnabled,
+                           ModConfigSpec.BooleanValue gapEnabled) {
 
     public static final IConfigSpec SPEC;
     public static final ClientConfig INSTANCE;
@@ -32,7 +33,8 @@ public record ClientConfig(ModConfigSpec.BooleanValue durabilitySectionEnabled,
                 build.comment("The color curses should have").defineEnum("enchantments.color.curse", ChatFormatting.RED),
                 build.comment("The color normal enchantments should have").defineEnum("enchantments.color.normal", ChatFormatting.GREEN),
                 build.comment("The color max level enchantments should have").defineEnum("enchantments.color.max_level", ChatFormatting.GOLD),
-                build.comment("Should the fancied up Color section be used?").define("color.enabled", true)
+                build.comment("Should the fancied up Color section be used?").define("color.enabled", true),
+                build.comment("Should sections of the tooltip have spacing between them?").define("gap.enabled", true)
         );
     }
 }
