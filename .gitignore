@@ -13,5 +13,14 @@ build
 run
 *.launch
 
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Kotlin Plugin
+.kotlin
+
 # Files from Forge MDK
 forge*changelog.txt
