@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "start_with_empty_line": false,
+  "component": {
+    "translate": "item.clean_tooltips.enchantments",
+    "color": "gray"
+  },
+  "colors": {
+    "default": "green",
+    "max": "gold",
+    "over_max": "aqua",
+    "curse": "red"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "enabled": true,
+  "start_with_empty_line": true,
+  "component": {
+    "translate": "item.clean_tooltips.durability",
+    "color": "gray"
+  },
+  "colors": [
+    {
+      "color": "red",
+      "threshold": 0.1
+    },
+    {
+      "color": "yellow",
+      "threshold": 0.5
+    },
+    {
+      "color": "green",
+      "threshold": 1.0
+    }
+  ]
+}

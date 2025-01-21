@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "start_with_empty_line": true,
+  "format": "#%06X",
+  "component": {
+    "translate": "item.clean_tooltips.color",
+    "color": "gray"
+  }
+}
