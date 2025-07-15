@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
 
-    @ModifyArg(at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/common/util/AttributeUtil;addAttributeTooltips(Lnet/minecraft/world/item/ItemStack;Ljava/util/function/Consumer;Lnet/neoforged/neoforge/common/util/AttributeTooltipContext;)V"), method = "getTooltipLines")
+    @ModifyArg(at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/common/util/AttributeUtil;addAttributeTooltips(Lnet/minecraft/world/item/ItemStack;Ljava/util/function/Consumer;Lnet/minecraft/world/item/component/TooltipDisplay;Lnet/neoforged/neoforge/common/util/AttributeTooltipContext;)V"), method = "addDetailsToTooltip")
     private Consumer<Component> cleanTooltips_getTooltipLines$addDurabilityTooltip(Consumer<Component> consumer) {
         DurabilitySection.create(consumer, (ItemStack) (Object) this);
 

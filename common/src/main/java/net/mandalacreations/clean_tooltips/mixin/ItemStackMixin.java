@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
 
-    @ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isDamaged()Z"), method = "getTooltipLines")
+    @ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isDamaged()Z"), method = "addDetailsToTooltip")
     private boolean cleanTooltips_getTooltipLines$cancelDurabilityTooltip(boolean original) {
         return false;
     }
