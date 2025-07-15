@@ -97,7 +97,12 @@ public class EnchantmentSection extends TooltipSection {
             return ClientConfig.INSTANCE.curseEnchantmentColor().get();
         }
 
-        return level >= enchantment.value().getMaxLevel() ? ClientConfig.INSTANCE.maxLevelEnchantmentColor().get() : ClientConfig.INSTANCE.normalEnchantmentColor().get();
+        var maxLevel = enchantment.value().getMaxLevel();
+        if (level >= maxLevel) {
+            return (maxLevel == level) ? ClientConfig.INSTANCE.maxLevelEnchantmentColor().get() : ClientConfig.INSTANCE.aboveMaxLevelEnchantmentColor().get();
+        }
+
+        return ClientConfig.INSTANCE.normalEnchantmentColor().get();
     }
 
     @Override
