@@ -1,6 +1,7 @@
 package net.mandalacreations.clean_tooltips.mixin;
 
 import net.mandalacreations.clean_tooltips.client.ColorSection;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
@@ -20,16 +21,12 @@ import java.util.function.Consumer;
 @Mixin(DyedItemColor.class)
 public abstract class DyedItemColorMixin {
 
-    @Shadow public abstract boolean showInTooltip();
-
-    @Shadow public abstract int rgb();
+    @Shadow
+    public abstract int rgb();
 
     @Inject(at = @At(value = "HEAD"), method = "addToTooltip", cancellable = true)
-    private void cleanTooltips_addToTooltip(Item.TooltipContext tooltipContext, Consumer<Component> consumer, TooltipFlag tooltipFlag, CallbackInfo ci) {
-        if (this.showInTooltip()) {
-            ci.cancel();
-
-            ColorSection.create(consumer, this.rgb());
-        }
+    private void cleanTooltips_addToTooltip(Item.TooltipContext tooltipContext, Consumer<Component> consumer, TooltipFlag tooltipFlag, DataComponentGetter dataComponentGetter, CallbackInfo ci) {
+        ColorSection.create(consumer, this.rgb());
+        ci.cancel();
     }
 }
