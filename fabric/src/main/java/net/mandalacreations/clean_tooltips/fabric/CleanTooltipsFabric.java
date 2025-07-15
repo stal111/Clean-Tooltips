@@ -1,6 +1,6 @@
 package net.mandalacreations.clean_tooltips.fabric;
 
-import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
+import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.mandalacreations.clean_tooltips.CleanTooltips;
 import net.mandalacreations.clean_tooltips.client.config.ClientConfig;
@@ -11,6 +11,6 @@ public class CleanTooltipsFabric implements ClientModInitializer {
     public void onInitializeClient() {
         CleanTooltips.init();
 
-        NeoForgeConfigRegistry.INSTANCE.register(CleanTooltips.MOD_ID, ModConfig.Type.CLIENT, ClientConfig.SPEC);
+        ConfigRegistry.INSTANCE.register(CleanTooltips.MOD_ID, ModConfig.Type.CLIENT, ClientConfig.SPEC);
     }
 }

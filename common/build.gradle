@@ -6,7 +6,7 @@ dependencies {
     //modApi "dev.architectury:architectury:${rootProject.architectury_version}"
 
     // Forge Config API Port
-    api "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:21.1.1"
+    api "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:${rootProject.forge_config_api_port_version}"
 }
 
 architectury {
